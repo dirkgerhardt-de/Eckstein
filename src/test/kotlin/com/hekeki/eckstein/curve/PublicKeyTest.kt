@@ -1,5 +1,5 @@
 /**
- * PrivateKeyTest -  Class to test PublicKey
+ * PublicKeyTest - Class to test PublicKey
  *
  * Copyright (c) 2018 - 2026 Dirk Gerhardt
  *
@@ -23,29 +23,23 @@ import org.junit.jupiter.api.Test
 
 class PublicKeyTest {
 
+    private val publicKeyA = PublicKey(byteArrayOf(0x01, 0x02, 0x03))
+    private val publicKeyB = PublicKey(byteArrayOf(0x04, 0x05, 0x06)) // same length, different content
+    private val publicKeyACopy = PublicKey(byteArrayOf(0x01, 0x02, 0x03)) // same content
+
     @Test
-    fun equals() {
-
-        val publicKey = PublicKey(ByteArray(0))
-        val publicKey2 = PublicKey(ByteArray(1))
-        val publicKey3 = PublicKey(ByteArray(0))
-
-        assertNotNull(publicKey)
-        assertTrue(publicKey == publicKey)
-        assertFalse(publicKey == PublicKey(ByteArray(1)))
-        assertFalse(publicKey == publicKey2)
-        assertTrue(publicKey == publicKey3)
-        assertTrue(publicKey == publicKey3 as Any)
+    fun `equals follows contract`() {
+        assertTrue(publicKeyA == publicKeyA, "reflexivity")
+        assertTrue(publicKeyA == publicKeyACopy, "same content must be equal")
+        assertFalse(publicKeyA == publicKeyB, "different content must not be equal")
+        assertFalse(publicKeyA == null, "must not be equal to null")
+        assertFalse(publicKeyA == Any(), "must not be equal to unrelated type")
+        assertTrue(publicKeyA.equals(publicKeyA as Any), "equals with receiver typed as Any")
     }
 
     @Test
-    fun testHashCode() {
-
-        val publicKey = PublicKey(ByteArray(0))
-        val publicKey2 = PublicKey(ByteArray(1))
-        val publicKey3 = PublicKey(ByteArray(0))
-
-        assertFalse(publicKey.hashCode() == publicKey2.hashCode())
-        assertTrue(publicKey.hashCode() == publicKey3.hashCode())
+    fun `hashCode follows contract`() {
+        assertTrue(publicKeyA.hashCode() == publicKeyACopy.hashCode(), "equal objects must have equal hash codes")
+        assertFalse(publicKeyA.hashCode() == publicKeyB.hashCode(), "")
     }
 }
