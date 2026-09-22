@@ -21,50 +21,94 @@ package com.hekeki.eckstein.encoding
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class HexTest {
 
-    @Test
-    fun `encode and decode ascii string round trip`() {
-        val original = "Hello, World!"
-        val hex = Hex.encode(original)
-        assertEquals("48656c6c6f2c20576f726c6421", hex)
-        assertEquals(original, Hex.decode(hex))
+    companion object {
+        private const val ASCII_PANGRAM =
+            "A quick movement of the enemy will jeopardize six gunboats."
+        private const val ASCII_HEX =
+            "4120717569636b206d6f76656d656e74206f662074686520656e656d792077696c6c206a656f70617264697a65207369782067756e626f6174732e"
+
+        private const val UTF8_PANGRAM =
+            "Schweißgequält zündet Typograf Jakob verflixt öde Pangramme an."
+        private const val UTF8_HEX =
+            "536368776569c39f67657175c3a46c74207ac3bc6e646574205479706f67726166204a616b6f6220766572666c69787420c3b664652050616e6772616d6d6520616e2e"
     }
 
-    @Test
-    fun `encode and decode unicode string round trip`() {
-        val original = "Grüße 😀"
-        val hex = Hex.encode(original)
-        assertEquals(original, Hex.decode(hex))
-    }
+    @Nested
+    inner class Encode {
 
-    @Test
-    fun `encode byte array produces lower case hex`() {
-        val bytes = byteArrayOf(0x00, 0x0f, 0xab.toByte(), 0xff.toByte())
-        assertEquals("000fabff", Hex.encode(bytes))
-    }
+        @Test
+        fun `encodes ascii to lowercase hex`() {
+            assertEquals(ASCII_HEX, Hex.encode(ASCII_PANGRAM))
+        }
 
-    @Test
-    fun `toByteArray and encode round trip`() {
-        val bytes = byteArrayOf(1, 2, 3, 255.toByte(), 0)
-        val hex = Hex.encode(bytes)
-        assertArrayEquals(bytes, Hex.toByteArray(hex))
-    }
+        @Test
+        fun `encodes utf-8 to lowercase hex`() {
+            assertEquals(UTF8_HEX, Hex.encode(UTF8_PANGRAM))
+        }
 
-    @Test
-    fun `toByteArray rejects odd length`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            Hex.toByteArray("abc")
+        @Test
+        fun `encodes byte array regardless of charset argument`() {
+            assertEquals(
+                UTF8_HEX,
+                Hex.encode(UTF8_PANGRAM, Charsets.UTF_8)
+            )
+        }
+
+        @Test
+        fun `encodes byte array with zero, max and min values`() {
+            assertEquals("000fabff", Hex.encode(byteArrayOf(0x00, 0x0f, 0xab.toByte(), 0xff.toByte())))
         }
     }
 
-    @Test
-    fun `toByteArray rejects invalid hex characters`() {
-        assertThrows(IllegalArgumentException::class.java) {
-            Hex.toByteArray("zz")
+    @Nested
+    inner class Decode {
+
+        @Test
+        fun `decodes ascii hex to string`() {
+            assertEquals(ASCII_PANGRAM, Hex.decode(ASCII_HEX))
+        }
+
+        @Test
+        fun `decodes utf-8 hex to string`() {
+            assertEquals(UTF8_PANGRAM, Hex.decode(UTF8_HEX))
+        }
+    }
+
+    @Nested
+    inner class RoundTrip {
+
+        @ParameterizedTest
+        @ValueSource(strings = ["Hello, World!", "Grüße 😀"])
+        fun `round trip preserves string`(original: String) {
+            assertEquals(original, Hex.decode(Hex.encode(original)))
+        }
+
+        @Test
+        fun `round trip preserves byte array`() {
+            val bytes = byteArrayOf(1, 2, 3, 255.toByte(), 0)
+            assertArrayEquals(bytes, Hex.toByteArray(Hex.encode(bytes)))
+        }
+    }
+
+    @Nested
+    inner class Validation {
+
+        @ParameterizedTest
+        @ValueSource(strings = ["abc", "g"])
+        fun `rejects odd length hex`(input: String) {
+            assertThrows(IllegalArgumentException::class.java) { Hex.toByteArray(input) }
+        }
+
+        @Test
+        fun `rejects invalid hex characters`() {
+            assertThrows(IllegalArgumentException::class.java) { Hex.toByteArray("zz") }
         }
     }
 }
-
