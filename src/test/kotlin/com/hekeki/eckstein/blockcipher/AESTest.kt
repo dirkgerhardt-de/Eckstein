@@ -35,7 +35,7 @@ class AESTest {
     private val keySizes = listOf(16, 24, 32)
 
     @Test
-    fun `encrypt ECB tests`() {
+    fun `produces correct ciphertext for known AES-ECB 128-bit and 256-bit test vectors`() {
         val plain = "Schweißgequält zündet Typograf Jakob verflixt öde Pangramme an."
 
         val key128 = ByteArray(16) { i -> (i + 1).toByte() }
@@ -52,7 +52,7 @@ class AESTest {
     }
 
     @Test
-    fun `encrypt CBC tests`() {
+    fun `produces correct ciphertext for known AES-CBC 128-bit and 256-bit test vectors`() {
         val plain = "Schweißgequält zündet Typograf Jakob verflixt öde Pangramme an."
         val iv = ByteArray(16) { i -> (i + 1).toByte() }
 
@@ -70,7 +70,7 @@ class AESTest {
     }
 
     @Test
-    fun `encrypt CTR tests`() {
+    fun `produces correct ciphertext for known AES-CTR NIST test vectors with 128, 192 and 256-bit keys`() {
         val plain = Hex.toByteArray("6bc1bee22e409f96e93d7e117393172a")
         val iv = Hex.toByteArray("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff")
 
@@ -186,7 +186,7 @@ class AESTest {
     }
 
     @Test
-    fun `encrypt decrypt CTR with padding`() {
+    fun `AES-CTR with PKCS7 padding correctly encrypts and decrypts arbitrary plaintext for all key sizes`() {
         val plain = "Schweißgequält zündet Typograf Jakob verflixt öde Pangramme an."
         val nonce = Utils.randomBytes(16)
 
@@ -219,7 +219,7 @@ class AESTest {
     }
 
     @Test
-    fun `non block aligned plaintext without padding throws`() {
+    fun `encryption without padding scheme throws when plaintext is not block-aligned`() {
         val key = Utils.randomBytes(16)
         assertThrows(IllegalArgumentException::class.java) {
             AES.encryptECB(ByteArray(15), key)

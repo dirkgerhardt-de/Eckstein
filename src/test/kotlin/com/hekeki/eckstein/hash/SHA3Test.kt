@@ -124,7 +124,7 @@ class SHA3Test {
 
         @ParameterizedTest(name = "{0}: \"{1}\"")
         @MethodSource("knownAnswerCases")
-        fun `matches known answer test vectors`(algo: String, input: String, expected: String) {
+        fun `produces hash that matches official NIST and FIPS 202 test vectors`(algo: String, input: String, expected: String) {
             val hash = algorithms.first { it.jdkName == algo }.hash
             assertEquals(expected, hash(input), "KAT mismatch for $algo")
         }
@@ -141,7 +141,7 @@ class SHA3Test {
 
         @ParameterizedTest(name = "{0} matches JDK for input #{1}")
         @MethodSource("referenceCases")
-        fun `matches JDK reference implementation`(algo: String, inputIndex: Int, input: String) {
+        fun `produces identical hash to standard Java MessageDigest implementation`(algo: String, inputIndex: Int, input: String) {
             val hash = algorithms.first { it.jdkName == algo }.hash
             assertEquals(jdkHash(algo, input), hash(input), "Mismatch for $algo at index $inputIndex")
         }
@@ -158,24 +158,24 @@ class SHA3Test {
     inner class EmptyInputTests {
 
         @Test
-        fun `sha3-224 of empty string matches FIPS 202`() {
+        fun `SHA3-224 produces correct hash for empty input according to FIPS 202`() {
             // TODO: Insert NIST/FIPS 202 known answer for SHA3-224("")
             assertEquals(jdkHash("SHA3-224", ""), SHA3.sha224(""))
         }
 
         @Test
-        fun `sha3-256 of empty string matches FIPS 202`() {
+        fun `SHA3-256 produces correct hash for empty input according to FIPS 202`() {
             assertEquals("a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a", SHA3.sha256(""))
         }
 
         @Test
-        fun `sha3-384 of empty string matches FIPS 202`() {
+        fun `SHA3-384 produces correct hash for empty input according to FIPS 202`() {
             // TODO: Insert NIST/FIPS 202 known answer for SHA3-384("")
             assertEquals(jdkHash("SHA3-384", ""), SHA3.sha384(""))
         }
 
         @Test
-        fun `sha3-512 of empty string matches FIPS 202`() {
+        fun `SHA3-512 produces correct hash for empty input according to FIPS 202`() {
             // TODO: Insert NIST/FIPS 202 known answer for SHA3-512("")
             assertEquals(jdkHash("SHA3-512", ""), SHA3.sha512(""))
         }
@@ -185,7 +185,7 @@ class SHA3Test {
     inner class PaddingBoundaryTests {
 
         @Test
-        fun `boundary lengths around block size per variant`() {
+        fun `all SHA3 variants produce correct hash for critical boundary lengths around block size`() {
             // SHA-3 block sizes per FIPS 202:
             // SHA3-224: 144, SHA3-256: 136, SHA3-384: 104, SHA3-512: 72
             for (algo in algorithms) {

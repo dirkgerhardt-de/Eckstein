@@ -19,8 +19,12 @@
 package com.hekeki.eckstein.pubkey
 
 import org.junit.jupiter.api.Assertions.assertArrayEquals
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.math.BigInteger
 import java.security.KeyFactory
 import java.security.Signature
 import java.security.spec.RSAPrivateCrtKeySpec
@@ -30,6 +34,86 @@ import javax.crypto.Cipher
 class RSATest {
 
     private val keyPair = RSA.keyPair(1024)
+
+    private val plain = "Schweißgequält zündet Typograf Jakob verflixt öde Pangramme an."
+
+    @Test
+    fun `sign and verify roundtrip works with SHA224`() {
+        val signed = RSA.sign("Message to sign".toByteArray(), keyPair.privateKey, RSA.SIGH.SHA224)
+        assertTrue(RSA.verify("Message to sign".toByteArray(), signed, keyPair.publicKey, RSA.SIGH.SHA224))
+    }
+
+    @Test
+    fun `sign and verify roundtrip works with SHA256`() {
+        val signed = RSA.sign("Message to sign".toByteArray(), keyPair.privateKey)
+        assertTrue(RSA.verify("Message to sign".toByteArray(), signed, keyPair.publicKey))
+    }
+
+    @Test
+    fun `sign and verify roundtrip works with SHA384`() {
+        val signed = RSA.sign("Message to sign".toByteArray(), keyPair.privateKey, RSA.SIGH.SHA384)
+        assertTrue(RSA.verify("Message to sign".toByteArray(), signed, keyPair.publicKey, RSA.SIGH.SHA384))
+    }
+
+    @Test
+    fun `sign and verify roundtrip works with SHA512`() {
+        val signed = RSA.sign("Message to sign".toByteArray(), keyPair.privateKey, RSA.SIGH.SHA512)
+        assertTrue(RSA.verify("Message to sign".toByteArray(), signed, keyPair.publicKey, RSA.SIGH.SHA512))
+    }
+
+    @Test
+    fun `encryption with unsupported OAEP scheme throws IllegalArgumentException`() {
+        assertThrows(IllegalArgumentException::class.java) {
+            RSA.encrypt("".toByteArray(), keyPair.publicKey, RSA.RSAES.OAEP)
+        }
+    }
+
+    @Test
+    fun `decryption with unsupported OAEP scheme throws IllegalArgumentException`() {
+        assertThrows(IllegalArgumentException::class.java) {
+            RSA.decrypt("".toByteArray(), keyPair.privateKey, RSA.RSAES.OAEP)
+        }
+    }
+
+    @Test
+    fun `i2osp with zero length throws IllegalArgumentException`() {
+        assertThrows(IllegalArgumentException::class.java) { RSA.i2osp(BigInteger.TEN, 0) }
+    }
+
+    @Test
+    fun `encryption with plaintext longer than modulus size throws IllegalArgumentException`() {
+        val tooBig = ByteArray(257) { i -> (i + 1).toByte() }
+        assertThrows(IllegalArgumentException::class.java) { RSA.encrypt(tooBig, keyPair.publicKey) }
+    }
+
+    @Test
+    fun `decryption with ciphertext longer than modulus size throws IllegalArgumentException`() {
+        val tooBig = ByteArray(257) { i -> (i + 1).toByte() }
+        assertThrows(IllegalArgumentException::class.java) { RSA.decrypt(tooBig, keyPair.privateKey) }
+    }
+
+    @Test
+    fun `encrypt-decrypt roundtrip works with 1024 bit RSA key`() {
+        val keyPair = RSA.keyPair(1024)
+        for (i in 0 until 25) {
+            val enc = RSA.encrypt(plain.toByteArray(), keyPair.publicKey)
+            assertEquals(plain, String(RSA.decrypt(enc, keyPair.privateKey)), "roundtrip mismatch on iteration $i")
+        }
+    }
+
+    @Test
+    fun `encrypt-decrypt roundtrip works with 2048 bit RSA key`() {
+        val keyPair = RSA.keyPair(2048)
+        val enc = RSA.encrypt(plain.toByteArray(), keyPair.publicKey)
+        assertEquals(plain, String(RSA.decrypt(enc, keyPair.privateKey)))
+    }
+
+    @Test
+    fun `encrypt-decrypt roundtrip works with 4096 bit RSA key`() {
+        val keyPair = RSA.keyPair(4096)
+        val enc = RSA.encrypt(plain.toByteArray(), keyPair.publicKey)
+        assertEquals(plain, String(RSA.decrypt(enc, keyPair.privateKey)))
+    }
 
     private fun jcaPublicKey(publicKey: RSAPublicKey): java.security.PublicKey {
         val spec = RSAPublicKeySpec(publicKey.n, publicKey.e)
@@ -71,8 +155,6 @@ class RSATest {
 
     @Test
     fun `many roundtrips with random padding never corrupt the message`() {
-        // Uses a small key so the padding string is short and any zero-byte-in-padding bug
-        // (violating PKCS1's "padding must be nonzero" requirement) surfaces quickly.
         val smallKeyPair = RSA.keyPair(512)
         val message = byteArrayOf(1, 2, 3, 4, 5)
 
@@ -122,7 +204,7 @@ class RSATest {
         val tampered = "Tampered message".toByteArray()
         val signature = RSA.sign(message, keyPair.privateKey)
 
-        assertTrue(!RSA.verify(tampered, signature, keyPair.publicKey))
+        assertFalse(RSA.verify(tampered, signature, keyPair.publicKey))
     }
 
     @Test
@@ -133,4 +215,3 @@ class RSATest {
         assertArrayEquals(message, decrypted)
     }
 }
-

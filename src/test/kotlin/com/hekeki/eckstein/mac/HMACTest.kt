@@ -64,7 +64,7 @@ class HMACTest {
         }
 
     @Test
-    fun hmacSHA224() = assertTestVectors(
+    fun `produces correct HMAC-SHA224 hash for all known test vectors`() = assertTestVectors(
         listOf(
             "a" to "2fb80dd1b9c39aece7090b06ecbfdac5f5cc720b80ed1c3950c04f3d",
             "abc" to "a00275b8df17da0259f95a99cad0a531bec74b63489064da88f9b876",
@@ -78,7 +78,7 @@ class HMACTest {
     ) { HMAC.sha224Hex(KEY, it) }
 
     @Test
-    fun hmacSHA256() = assertTestVectors(
+    fun `produces correct HMAC-SHA256 hash for all known test vectors`() = assertTestVectors(
         listOf(
             "a" to "ee5abdb1a95dc78c59c7feb9688eaf3947650d4fc1dc0283afc75bcd09cda45d",
             "abc" to "34ff7ba8b29202603bb5300d5c3c5b6f781ba8ac5e4f6d63404b2a75dbab77b9",
@@ -92,7 +92,7 @@ class HMACTest {
     ) { HMAC.sha256Hex(KEY, it) }
 
     @Test
-    fun hmacSHA384() = assertTestVectors(
+    fun `produces correct HMAC-SHA384 hash for all known test vectors`() = assertTestVectors(
         listOf(
             "a" to "88939bb17f51ed18aba4dc96c10b418441ce718367bac9410a6053eb96556d2d531b9c0f92aa73fcce41e82c3ef4f20f",
             "abc" to "b2baa22783312b967a97b1ef6c4568068bf17db5b521bf69da22355d85013bbbddb785d45f6c9c01afbe842be455c4e4",
@@ -106,7 +106,7 @@ class HMACTest {
     ) { HMAC.sha384Hex(KEY, it) }
 
     @Test
-    fun hmacSHA512() = assertTestVectors(
+    fun `produces correct HMAC-SHA512 hash for all known test vectors`() = assertTestVectors(
         listOf(
             "a" to "ba76ae26b103b9e7ed33fe31eafd33d439031dc3c9f02626aeacd4eac26e27cece3cfdb1640ee0fcc6b013c4af18f38ea79d0851783cd86874d06dc98de000be",
             "abc" to "9a04ef3dc0e170403d57f849045864ae967c163bbfa6d4491298378ddb82bcf6548e35045ad267670b0d7ee6b7c7b2b917ebd6cb36409faab0649fe09c365471",
@@ -120,7 +120,7 @@ class HMACTest {
     ) { HMAC.sha512Hex(KEY, it) }
 
     @Test
-    fun hmacBigText() {
+    fun `produces correct hash when processing large plaintext exceeding block size`() {
         assertEquals(
             "fb94ef3435ff1bfb010fb88088a111ea6bb1086148290ec5e20c27ff3cf55791b758205fde468b95591f4c60d59b5e3495e06a30dc1443b30388f093964258d1",
             HMAC.sha512Hex(KEY, LOREM_IPSUM)
@@ -128,7 +128,7 @@ class HMACTest {
     }
 
     @Test
-    fun hmacBigKey() {
+    fun `produces correct hash when key and message both exceed block size`() {
         assertEquals(
             "6f3dbfd27acb93dcb58533d26340c949ba68f037e520940d7d670afcc0d3fa6b",
             HMAC.sha256Hex(LOREM_IPSUM, PANGRAM)
