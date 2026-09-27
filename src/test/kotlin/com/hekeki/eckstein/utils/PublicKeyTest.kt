@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.hekeki.eckstein.curve
+package com.hekeki.eckstein.utils
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

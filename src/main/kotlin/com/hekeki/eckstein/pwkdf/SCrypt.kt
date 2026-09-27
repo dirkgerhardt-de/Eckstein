@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.hekeki.eckstein.pwdhash
+package com.hekeki.eckstein.pwkdf
 
 import com.hekeki.eckstein.mac.HMAC
 import com.hekeki.eckstein.utils.Utils

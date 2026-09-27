@@ -3,20 +3,43 @@
 [![Made With Kotlin](https://img.shields.io/badge/Made%20with-Kotlin-orange.svg)](https://kotlinlang.org/)
 
 Eckstein is a collection of cryptographic algorithms written in Kotlin, without relying on external cryptography libraries.\
-\
-All algorithms are ground-up implementations of fundamental algorithms—hash functions, MACs, password hashing, block ciphers, 
+All algorithms are ground-up implementations of fundamental algorithms—hash functions, MACs, password hashing, block ciphers,
 public-key schemes, and digital signatures
 
 ## Table of Contents
 
 - [Disclaimer](#disclaimer)
+- [Features](#features)
+- [Roadmap](#roadmap)
 - [License](#license)
+- [Build & Test](#build--test)
 
 ## Disclaimer
-Eckstein is still **not** recommended for production use.  
+Eckstein is still **not** recommended for production use.
 
 All algorithms have been verified against established references (JDK built-in tools, BouncyCastle, and `jBCrypt`).\
 So far, neither a code review nor performance optimizations has been performed.
+
+## Features
+
+* Encoding:
+    * **Base64, Hex**
+* Cryptographic hash functions:
+    * **SHA3 (Keccak), SHA2, BLAKE2b**
+* Message authentication code:
+    * **HMAC, Poly1305, Poly1305-AES**
+* Password-Based Key Derivation Functions:
+    * **BCrypt, SCrypt, PBKDF2, ARGON2**
+* Block cipher:
+    * **AES, Blowfish, Twofish, Serpent**
+* Block cipher modes:
+    * **ECB, CBC, CTR**
+* Public-key cryptography:
+    * **RSA**
+* Elliptic curve cryptography:
+    * **Curve25519**
+* Signature:
+    * **Ed25519**
 
 ## License
     Copyright (C) 2018 - 2026 Dirk Gerhardt
@@ -33,3 +56,11 @@ So far, neither a code review nor performance optimizations has been performed.
 
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+## Build & Test
+
+```bash
+./gradlew build
+./gradlew test
+```
+

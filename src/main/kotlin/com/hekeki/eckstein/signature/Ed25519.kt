@@ -16,9 +16,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.hekeki.eckstein.curve
+package com.hekeki.eckstein.signature
 
 import com.hekeki.eckstein.hash.SHA2
+import com.hekeki.eckstein.utils.KeyPair
+import com.hekeki.eckstein.utils.PrivateKey
+import com.hekeki.eckstein.utils.PublicKey
 import com.hekeki.eckstein.utils.Utils
 import java.math.BigInteger
 import java.nio.ByteBuffer
@@ -271,3 +274,5 @@ object Ed25519 {
     private val qp3 = BigInteger("57896044618658097711785492504343953926634992332820282019728792003956564819952")
     private val B = arrayOf(Bx.mod(q), By.mod(q))
 }
+
+

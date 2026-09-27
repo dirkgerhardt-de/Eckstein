@@ -16,8 +16,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.hekeki.eckstein.curve
+package com.hekeki.eckstein.ecc
 
+import com.hekeki.eckstein.utils.KeyPair
+import com.hekeki.eckstein.utils.PrivateKey
+import com.hekeki.eckstein.utils.PublicKey
 import com.hekeki.eckstein.utils.Utils
 
 object Curve25519 {

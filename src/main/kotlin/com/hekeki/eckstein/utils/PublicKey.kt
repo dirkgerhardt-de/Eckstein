@@ -1,5 +1,5 @@
 /**
- * PrivateKey - Class to hold a private key
+ * PublicKey - Class to hold a public key
  *
  * Copyright (c) 2018 - 2026 Dirk Gerhardt
  *
@@ -16,21 +16,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package com.hekeki.eckstein.curve
+package com.hekeki.eckstein.utils
 
-import java.util.*
-
-data class PrivateKey(val bytes: ByteArray) {
+data class PublicKey(val bytes: ByteArray) {
 
     override fun equals(other: Any?): Boolean {
+
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        val privateKey = other as PrivateKey
+        val publicKey = other as PublicKey
 
-        if (!Arrays.equals(bytes, privateKey.bytes)) return false
-
-        return true
+        return bytes.contentEquals(publicKey.bytes)
     }
 
     override fun hashCode(): Int {
