@@ -25,11 +25,11 @@ So far, neither a code review nor performance optimizations has been performed.
 * Encoding:
     * **Base64, Hex**
 * Cryptographic hash functions:
-    * **SHA3 (Keccak), SHA2, BLAKE2b**
+    * **SHA3 (Keccak), SHA2**
 * Message authentication code:
-    * **HMAC, Poly1305, Poly1305-AES**
+    * **HMAC**
 * Password-Based Key Derivation Functions:
-    * **BCrypt, SCrypt, PBKDF2, ARGON2**
+    * **BCrypt, SCrypt, PBKDF2**
 * Block cipher:
     * **AES, Blowfish, Twofish, Serpent**
 * Block cipher modes:
