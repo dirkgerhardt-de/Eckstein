@@ -10,9 +10,7 @@ public-key schemes, and digital signatures
 
 - [Disclaimer](#disclaimer)
 - [Features](#features)
-- [Roadmap](#roadmap)
 - [License](#license)
-- [Build & Test](#build--test)
 
 ## Disclaimer
 Eckstein is still **not** recommended for production use.
@@ -56,11 +54,3 @@ So far, neither a code review nor performance optimizations has been performed.
 
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-## Build & Test
-
-```bash
-./gradlew build
-./gradlew test
-```
-
