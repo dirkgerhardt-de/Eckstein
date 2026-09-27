@@ -25,7 +25,7 @@ So far, neither a code review nor performance optimizations has been performed.
 * Cryptographic hash functions:
     * **SHA3 (Keccak), SHA2, BLAKE2b**
 * Message authentication code:
-    * **HMAC**
+    * **HMAC, Poly1305, Poly1305-AES**
 * Password-Based Key Derivation Functions:
     * **BCrypt, SCrypt, PBKDF2**
 * Block cipher:
