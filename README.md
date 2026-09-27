@@ -2,7 +2,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Made With Kotlin](https://img.shields.io/badge/Made%20with-Kotlin-orange.svg)](https://kotlinlang.org/)
 
-Eckstein is a collection of cryptographic algorithms written in Kotlin, without relying on external cryptography libraries.\
+Eckstein is a collection of cryptographic algorithms written in Kotlin, without relying on external cryptography libraries.
 All algorithms are ground-up implementations of fundamental algorithms—hash functions, MACs, password hashing, block ciphers,
 public-key schemes, and digital signatures
 
@@ -23,7 +23,7 @@ So far, neither a code review nor performance optimizations has been performed.
 * Encoding:
     * **Base64, Hex**
 * Cryptographic hash functions:
-    * **SHA3 (Keccak), SHA2**
+    * **SHA3 (Keccak), SHA2, BLAKE2b**
 * Message authentication code:
     * **HMAC**
 * Password-Based Key Derivation Functions:
