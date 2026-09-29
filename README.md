@@ -3,8 +3,8 @@
 [![Made With Kotlin](https://img.shields.io/badge/Made%20with-Kotlin-orange.svg)](https://kotlinlang.org/)
 
 Eckstein is a collection of cryptographic algorithms written in Kotlin, without relying on external cryptography libraries.
-All algorithms are ground-up implementations of fundamental algorithms — hash functions, MACs, 
-password kdfs, block ciphers, ecc, public-key schemes, and digital signatures
+All algorithms are ground-up implementations of fundamental algorithms — hash functions, MACs, AEAD constructions,
+password kdfs, block and stream ciphers, ecc, public-key schemes, and digital signatures
 
 ## Table of Contents
 
@@ -27,7 +27,7 @@ So far, neither a code review nor performance optimizations has been performed.
 * Message authentication code:
     * **HMAC, Poly1305, Poly1305-AES**
 * Password-Based Key Derivation Functions:
-    * **BCrypt, SCrypt, PBKDF2**
+    * **BCrypt, SCrypt, PBKDF2, ARGON2**
 * Block cipher:
     * **AES, Blowfish, Twofish, Serpent**
 * Block cipher modes:
