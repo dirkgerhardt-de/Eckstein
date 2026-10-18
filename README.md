@@ -8,9 +8,9 @@ password kdfs, block and stream ciphers, ecc, public-key schemes, and digital si
 
 ## Table of Contents
 
-- [Disclaimer](#disclaimer)
-- [Features](#features)
-- [License](#license)
+[Disclaimer](#disclaimer)
+[Features](#features)
+[License](#license)
 
 ## Disclaimer
 Eckstein is still **not** recommended for production use.
@@ -42,6 +42,12 @@ So far, neither a code review nor performance optimizations has been performed.
     * **Curve25519**
 * Signature:
     * **Ed25519**
+
+## Roadmap
+* HKDF (RFC 5869) — enabling full X25519 → HKDF → AEAD key exchange chains
+* SHAKE 128/256, cSHAKE (FIPS 202, NIST SP 800-185) — unlocking the whole SHAKE family
+* AES-GCM (NIST SP 800-38D) — the second TLS 1.3 standard AEAD
+
 
 ## License
 
