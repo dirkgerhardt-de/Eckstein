@@ -45,8 +45,8 @@ So far, neither a code review nor performance optimizations has been performed.
 
 ## Roadmap
 * HKDF (RFC 5869) — enabling full X25519 → HKDF → AEAD key exchange chains
-* SHAKE 128/256, cSHAKE (FIPS 202, NIST SP 800-185) — unlocking the whole SHAKE family
 * AES-GCM (NIST SP 800-38D) — the second TLS 1.3 standard AEAD
+* SHAKE 128/256, cSHAKE (FIPS 202, NIST SP 800-185) — unlocking the whole SHAKE family
 
 
 ## License
