@@ -34,6 +34,8 @@ So far, neither a code review nor performance optimizations has been performed.
     * **ECB, CBC, CTR**
 * Stream cipher:
     * **Salsa20, ChaCha20, XSalsa20, XChaCha20**
+* Authenticated Encryption with Associated Data (AEAD):
+    * **ChaCha20-Poly1305, XChaCha20-Poly1305, XSalsa20-Poly1305**
 * Public-key cryptography:
     * **RSA**
 * Elliptic curve cryptography:
