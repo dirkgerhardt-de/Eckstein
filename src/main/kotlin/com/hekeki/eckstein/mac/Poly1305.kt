@@ -22,7 +22,7 @@ import java.math.BigInteger
 
 object Poly1305 {
 
-    private const val KEY_SIZE = 32
+    const val KEY_SIZE = 32
     private const val TAG_SIZE = 16
     private const val BLOCK_SIZE = 16
 

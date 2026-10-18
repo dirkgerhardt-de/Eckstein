@@ -32,6 +32,8 @@ So far, neither a code review nor performance optimizations has been performed.
     * **AES, Blowfish, Twofish, Serpent**
 * Block cipher modes:
     * **ECB, CBC, CTR**
+* Stream cipher:
+    * **Salsa20, ChaCha20, XSalsa20, XChaCha20**
 * Public-key cryptography:
     * **RSA**
 * Elliptic curve cryptography:
